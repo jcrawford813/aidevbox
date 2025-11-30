@@ -25,14 +25,14 @@ RUN pacman -Syu --noconfirm && \
         fuse \
         alsa-lib \
         pipewire-jack \
-        open-cv \
+        opencv \
         blas \
         fmt \
         glew \
         vtk \
         hdf5 \
         python-pipx \
-        rocm 
+        rocminfo
 
 RUN ln -sf /usr/lib/pkgconfig/opencv4.pc /usr/lib/pkgconfig/opencv.pc
 
