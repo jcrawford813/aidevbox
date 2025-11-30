@@ -40,15 +40,23 @@ RUN ln -sf /usr/lib/pkgconfig/opencv4.pc /usr/lib/pkgconfig/opencv.pc
 
 RUN pipx install --include-deps pypatchmatch
 
-#Build Alpaca-AI from AUR
-RUN git clone https://aur.archlinux.org/alpaca-ai.git /tmp/alpaca-ai && \
-    cd /tmp/alpaca-ai && \
-    makepkg -si --noconfirm && \
-    rm -rf /tmp/alpaca-ai
-
 # Enable password less sudo
 RUN sed -i -e 's/ ALL$/ NOPASSWD:ALL/' /etc/sudoers
 RUN chown root:root /etc/sudoers
 RUN chown root:root /usr/bin/sudo && chmod 4755 /usr/bin/sudo
+
+#Build Alpaca-AI from AUR
+RUN useradd --no-create-home --shell=/bin/false build && usermod -L build
+
+USER build
+
+RUN git clone https://aur.archlinux.org/alpaca-ai.git /tmp/alpaca-ai && \
+    cd /tmp/alpaca-ai && \
+    makepkg -s --noconfirm 
+    
+USER root
+
+RUN pacman -U *.pkg.tar.xz
+RUN rm -rf /tmp/alpaca-ai && userdel build
 
 RUN echo VARIANT_ID=container >> /etc/os-release
