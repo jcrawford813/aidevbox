@@ -32,11 +32,18 @@ RUN pacman -Syu --noconfirm && \
         vtk \
         hdf5 \
         python-pipx \
-        rocminfo
+        rocminfo \
+        ollama-rocm
 
 RUN ln -sf /usr/lib/pkgconfig/opencv4.pc /usr/lib/pkgconfig/opencv.pc
 
 RUN pipx install --include-deps pypatchmatch
+
+#Build Alpaca-AI from AUR
+RUN git clone https://aur.archlinux.org/alpaca-ai.git /tmp/alpaca-ai && \
+    cd /tmp/alpaca-ai && \
+    makepkg -si --noconfirm && \
+    rm -rf /tmp/alpaca-ai
 
 # Enable password less sudo
 RUN sed -i -e 's/ ALL$/ NOPASSWD:ALL/' /etc/sudoers

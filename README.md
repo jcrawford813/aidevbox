@@ -1,9 +1,10 @@
-# A Distrobox Image for Azure Development
+# A Distrobox Image for AI Tooling
 
-This is a custom distrobox image that comes pre-loaded with Libraries that help to enable running Alpaca and Invoke on my hardware. The current tooling includes:
+This is a custom distrobox image that comes pre-loaded with Libraries that help to enable running Alpaca and Invoke on my hardware (AMD). The current tooling includes:
 
-- FUSE
 - ROCM
+- OLLAMA
+- Alpaca-AI
 - Support Libraries to run the Invoke.AI AppImage.
 
 The image is based on Arch Linux.
@@ -20,8 +21,7 @@ distrobox enter aidevbox
 If desired, shortcuts may be exported for the tools:
 
 ```
-distrobox-export --app code
-distrobox-export --app azuredatastudio
+distrobox-export --app alpaca-ai
 ```
 
 ## Updating
