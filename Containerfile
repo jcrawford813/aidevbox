@@ -17,6 +17,7 @@ RUN sed -Ei 's/^(hosts:.*)(\<files\>)\s*(.*)/\1\2 myhostname \3/' /etc/nsswitch.
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm \
         base-devel \
+        git \
         nspr \
         nss \
         atk \
