@@ -33,7 +33,8 @@ RUN pacman -Syu --noconfirm && \
         vtk \
         hdf5 \
         python-pip \
-        rocminfo
+        rocminfo \
+        qt6-base
 
 RUN ln -sf /usr/lib/pkgconfig/opencv4.pc /usr/lib/pkgconfig/opencv.pc
 
