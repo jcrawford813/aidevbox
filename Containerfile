@@ -32,71 +32,32 @@ RUN pacman -Syu --noconfirm && \
         glew \
         vtk \
         hdf5 \
-        python-pipx \
+        python-pip \
         rocminfo \
         ollama-rocm
 
 RUN ln -sf /usr/lib/pkgconfig/opencv4.pc /usr/lib/pkgconfig/opencv.pc
 
-RUN pipx install --include-deps pypatchmatch
+RUN pip install pypatchmatch --break-system-packages
 
 # Enable password less sudo
-RUN sed -i -e 's/ ALL$/ NOPASSWD:ALL/' /etc/sudoers
+RUN useradd --no-create-home --shell=/bin/false build && usermod -L build
+RUN echo "build ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 RUN chown root:root /etc/sudoers
 RUN chown root:root /usr/bin/sudo && chmod 4755 /usr/bin/sudo
 
-#Build Alpaca-AI from AUR
-RUN pacman -S --noconfirm \
-    gtk4 \
-    gtksourceview5 \
-    libadwaita \
-    libspelling \
-    python-gobject \
-    python-html2text \
-    python-matplotlib \
-    python-odfpy \
-    python-openai \
-    python-pillow \
-    python-pydantic \
-    python-pydbus \
-    python-pyicu \
-    python-pypdf \
-    python-requests \
-    python-youtube-transcript-api \
-    python-pyaudio \
-    python-openai-whisper \
-    vte4 \
-    libvoikko \
-    nuspell \
-    hspell \
-    python-markitdown \
-    python-mammoth \
-    python-markdownify \
-    python-pptx \
-    python-pydub \
-    python-speechrecognition \
-    python-pathvalidate \
-    python-cobble \
-    python-magika \
-    libportal \
-    python-opencv \
-    python-duckduckgo-search \
-    python-cairo \
-    gst-plugin-pipewire \
-    webkitgtk-6.0 \
-    blueprint-compiler
-
-RUN useradd --no-create-home --shell=/bin/false build && usermod -L build
-
+# Build Alpaca-AI from AUR
+RUN git clone https://aur.archlinux.org/yay.git /tmp/yay
+RUN chown -R build:build /tmp/yay
 USER build
-
-RUN git clone https://aur.archlinux.org/alpaca-ai.git /tmp/alpaca-ai && \
-    cd /tmp/alpaca-ai && \
-    makepkg -s --noconfirm 
-    
+WORKDIR /tmp/yay
+RUN makepkg -si --noconfirm
 USER root
-
-RUN pacman -U *.pkg.tar.xz
-RUN rm -rf /tmp/alpaca-ai && userdel build
+WORKDIR /tmp
+RUN rm -rf /tmp/yay
+WORKDIR /
+RUN yay -S --noconfirm alpaca-ai
 
 RUN echo VARIANT_ID=container >> /etc/os-release
