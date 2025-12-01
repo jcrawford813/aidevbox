@@ -41,7 +41,7 @@ RUN ln -sf /usr/lib/pkgconfig/opencv4.pc /usr/lib/pkgconfig/opencv.pc
 RUN pip install pypatchmatch --break-system-packages
 
 # Enable password less sudo
-RUN useradd --no-create-home --shell=/bin/false build && usermod -L build
+RUN useradd --shell=/bin/false build && usermod -L build
 RUN echo "build ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
