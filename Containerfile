@@ -41,24 +41,10 @@ RUN ln -sf /usr/lib/pkgconfig/opencv4.pc /usr/lib/pkgconfig/opencv.pc
 RUN pip install pypatchmatch --break-system-packages
 
 # Enable password less sudo
-RUN useradd build -m -G wheel
 RUN echo "build ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 RUN chown root:root /etc/sudoers
 RUN chown root:root /usr/bin/sudo && chmod 4755 /usr/bin/sudo
-
-# Build Alpaca-AI from AUR
-RUN git clone https://aur.archlinux.org/yay.git /tmp/yay
-RUN chown -R build:build /tmp/yay
-USER build
-WORKDIR /tmp/yay
-RUN makepkg -si --noconfirm
-USER root
-RUN userdel -r build
-WORKDIR /tmp
-RUN rm -rf /tmp/yay
-WORKDIR /
-RUN yay -S --noconfirm alpaca-ai
 
 RUN echo VARIANT_ID=container >> /etc/os-release
