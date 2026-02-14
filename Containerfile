@@ -25,8 +25,6 @@ RUN apt update && \
         alsa-base \
         libopencv-core-dev
 
-RUN ln -sf /usr/lib/pkgconfig/opencv4.pc /usr/lib/pkgconfig/opencv.pc
-
 RUN pip install pypatchmatch --break-system-packages
 
 # Enable password less sudo
