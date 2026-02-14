@@ -23,7 +23,8 @@ RUN apt update && \
         libnspr4 \
         libnss3 \
         alsa-base \
-        libopencv-core-dev
+        libopencv-core-dev \
+        sudo
 
 RUN pip install pypatchmatch --break-system-packages
 
