@@ -1,4 +1,4 @@
-FROM docker.io/library/archlinux:latest
+FROM docker.io/library/ubuntu:noble
 
 LABEL com.github.containers.toolbox="true" \
       name="aidev-distrobox" \
@@ -14,29 +14,18 @@ LABEL com.github.containers.toolbox="true" \
 RUN sed -Ei 's/^(hosts:.*)(\<files\>)\s*(.*)/\1\2 myhostname \3/' /etc/nsswitch.conf
 
 # Install packages
-RUN pacman -Syu --noconfirm && \
-    pacman -S --noconfirm \
-        base-devel \
-        git \
-        nspr \
-        nss \
-        atk \
-        cups \
-        gtk3 \
-        fuse \
-        alsa-lib \
-        pipewire-jack \
-        opencv \
-        blas \
-        fmt \
-        glew \
-        vtk \
-        hdf5 \
-        python-pip \
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y \
         rocminfo \
-        qt6-base
-
-RUN ln -sf /usr/lib/pkgconfig/opencv4.pc /usr/lib/pkgconfig/opencv.pc
+        pip \
+        fuse \
+        libnspr4 \
+        libnss3 \
+        alsa-base \
+        libopencv-dev \
+        python3-opencv \
+        sudo
 
 RUN pip install pypatchmatch --break-system-packages
 
