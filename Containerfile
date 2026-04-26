@@ -1,4 +1,4 @@
-FROM docker.io/library/ubuntu:noble
+FROM docker.io/library/debian:trixie
 
 LABEL com.github.containers.toolbox="true" \
       name="aidev-distrobox" \
@@ -28,6 +28,7 @@ RUN apt update && \
         sudo
 
 RUN pip install pypatchmatch --break-system-packages
+RUN pip install --pre torch torchvision torchaudio --index-url https://rocm.nightlies.amd.com/v2/gfx110X-all/ --break-system-packages
 
 # Enable password less sudo
 RUN echo "build ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
