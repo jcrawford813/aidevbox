@@ -22,7 +22,7 @@ RUN apt update && \
         fuse \
         libnspr4 \
         libnss3 \
-        alsa-base \
+        alsa-tools \
         libopencv-dev \
         python3-opencv \
         sudo
