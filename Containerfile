@@ -25,7 +25,8 @@ RUN apt update && \
         alsa-tools \
         libopencv-dev \
         python3-opencv \
-        sudo
+        sudo \
+        curl
 
 RUN curl -fsSL https://lmstudio.ai/download/latest/linux/x64?format=deb
 RUN apt install -y ./*.deb
