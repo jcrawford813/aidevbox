@@ -25,6 +25,7 @@ RUN apt update && \
         alsa-tools \
         libopencv-dev \
         python3-opencv \
+        libfuse2t64 \
         sudo \
         curl
 
