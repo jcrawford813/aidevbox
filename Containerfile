@@ -27,6 +27,9 @@ RUN apt update && \
         python3-opencv \
         sudo
 
+RUN curl -fsSL https://lmstudio.ai/download/latest/linux/x64?format=deb
+RUN apt install -y ./*.deb
+
 RUN pip install pypatchmatch --break-system-packages
 RUN pip install --pre torch torchvision torchaudio --index-url https://rocm.nightlies.amd.com/v2/gfx110X-all/ --break-system-packages
 
